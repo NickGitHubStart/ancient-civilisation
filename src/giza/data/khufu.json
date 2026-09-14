@@ -1,0 +1,514 @@
+{
+  "id": "khufu",
+  "name": "Khufu",
+  "cubit": {
+    "id": "cubit",
+    "original": { "value": 20.632, "unit": "in", "error": 0.004 },
+    "source": { "id": "petrie-1883", "loc": "ch.7 §52", "excerptId": "petrie-1883-cubit" },
+    "note": "Mittel der vier Basisseiten der Königskammer. Petrie: beste Elle der Großen Pyramide."
+  },
+  "exterior": {
+    "baseMeanPetrie": {
+      "id": "base-mean-petrie",
+      "original": { "value": 9068.8, "unit": "in", "error": 0.5 },
+      "source": { "id": "petrie-1883", "loc": "ch.6 §21", "excerptId": "petrie-1883-angle" },
+      "note": "Fertige Casing-Basis auf dem Pflaster."
+    },
+    "baseMeanCole": {
+      "id": "base-mean-cole",
+      "original": { "value": 230.364, "unit": "m" },
+      "source": { "id": "cole-1925", "loc": "mean dimensions", "excerptId": "cole-1925-azimuth" }
+    },
+    "sidesCole": {
+      "north": {
+        "id": "side-n-cole",
+        "original": { "value": 230.253, "unit": "m" },
+        "azimuth": { "deg": 89, "min": 57, "sec": 32 },
+        "source": { "id": "cole-1925", "loc": "sides table", "excerptId": "cole-1925-azimuth" }
+      },
+      "south": {
+        "id": "side-s-cole",
+        "original": { "value": 230.454, "unit": "m" },
+        "azimuth": { "deg": 89, "min": 58, "sec": 3 },
+        "source": { "id": "cole-1925", "loc": "sides table", "excerptId": "cole-1925-azimuth" }
+      },
+      "east": {
+        "id": "side-e-cole",
+        "original": { "value": 230.391, "unit": "m" },
+        "azimuth": { "deg": 359, "min": 54, "sec": 30 },
+        "source": { "id": "cole-1925", "loc": "sides table", "excerptId": "cole-1925-azimuth" }
+      },
+      "west": {
+        "id": "side-w-cole",
+        "original": { "value": 230.357, "unit": "m" },
+        "azimuth": { "deg": 359, "min": 57, "sec": 30 },
+        "source": { "id": "cole-1925", "loc": "sides table", "excerptId": "cole-1925-azimuth" }
+      }
+    },
+    "azimuthMeanCole": {
+      "id": "azimuth-cole",
+      "dms": { "deg": 0, "min": 3, "sec": 6, "sign": -1 },
+      "source": { "id": "cole-1925", "loc": "general mean 3′ 06″", "excerptId": "cole-1925-azimuth" },
+      "note": "Mittel: 3′ 06″ westlich von True North."
+    },
+    "azimuthMeanPetrie": {
+      "id": "azimuth-petrie",
+      "dms": { "deg": 0, "min": 3, "sec": 43, "sign": -1 },
+      "source": { "id": "petrie-1883", "loc": "ch.6 §21" }
+    },
+    "heightOriginal": {
+      "id": "height-original",
+      "original": { "value": 5776.0, "unit": "in", "error": 7.0 },
+      "source": { "id": "petrie-1883", "loc": "ch.6 §25", "excerptId": "petrie-1883-angle" },
+      "note": "Aus Mittelbasis 9068.8 in und Winkel 51° 52′."
+    },
+    "angleNorth": {
+      "id": "angle-north",
+      "dms": { "deg": 51, "min": 50, "sec": 40 },
+      "source": { "id": "petrie-1883", "loc": "ch.6 §24", "excerptId": "petrie-1883-angle" },
+      "note": "Gewichtetes Mittel der Nordseite. Seked 5½ = 51° 50′ 34″."
+    },
+    "angleMean": {
+      "id": "angle-mean",
+      "dms": { "deg": 51, "min": 52, "sec": 0 },
+      "errorMin": 2,
+      "source": { "id": "petrie-1883", "loc": "ch.6 §25", "excerptId": "petrie-1883-angle" }
+    },
+    "heightToday": {
+      "id": "height-today",
+      "original": { "value": 138.5, "unit": "m" },
+      "source": { "id": "lehner-1997", "loc": "Great Pyramid" },
+      "note": "Ohne Casing und Pyramidion. Nicht Phase-1-Geometrie."
+    }
+  },
+  "passageSection": {
+    "width": {
+      "id": "passage-width",
+      "original": { "value": 41.53, "unit": "in", "error": 0.07 },
+      "source": { "id": "petrie-1883", "loc": "ch.6 §30" },
+      "note": "Mittel der Pyramidengänge."
+    },
+    "height": {
+      "id": "passage-height",
+      "original": { "value": 47.24, "unit": "in", "error": 0.05 },
+      "source": { "id": "petrie-1883", "loc": "ch.6 §30" },
+      "note": "Senkrecht zum Boden."
+    }
+  },
+  "entrance": {
+    "abovePavement": {
+      "id": "entrance-level",
+      "original": { "value": 668.2, "unit": "in", "error": 0.1 },
+      "source": { "id": "petrie-1883", "loc": "ch.7 §35", "excerptId": "petrie-1883-entrance" }
+    },
+    "southOfNorthCasing": {
+      "id": "entrance-in-from-n",
+      "original": { "value": 524.1, "unit": "in", "error": 0.3 },
+      "source": { "id": "petrie-1883", "loc": "ch.7 §35", "excerptId": "petrie-1883-entrance" }
+    },
+    "eastOfCenter": {
+      "id": "entrance-east",
+      "original": { "value": 287.0, "unit": "in", "error": 0.8 },
+      "source": { "id": "petrie-1883", "loc": "ch.7 §35", "excerptId": "petrie-1883-entrance" }
+    }
+  },
+  "descending": {
+    "lengthFloor": {
+      "id": "desc-length",
+      "original": { "value": 4140, "unit": "in" },
+      "source": { "id": "petrie-1883", "loc": "ch.7 §36" },
+      "note": "Bis Südende des absteigenden Bodens. Grob ± 2–3 in im Felsabschnitt."
+    },
+    "altitude": {
+      "id": "desc-alt",
+      "dms": { "deg": 26, "min": 31, "sec": 23 },
+      "source": { "id": "petrie-1883", "loc": "ch.7 §36" }
+    },
+    "azimuth": {
+      "id": "desc-az",
+      "dms": { "deg": 0, "min": 3, "sec": 44, "sign": -1 },
+      "source": { "id": "petrie-1883", "loc": "ch.7 §36" },
+      "note": "Mittelachse der ganzen Länge, westlich von Süd."
+    },
+    "endLevel": {
+      "id": "desc-end-level",
+      "original": { "value": -1181, "unit": "in", "error": 1 },
+      "source": { "id": "petrie-1883", "loc": "ch.7 §36" }
+    },
+    "endNorthOfCenter": {
+      "id": "desc-end-n",
+      "original": { "value": 306, "unit": "in" },
+      "source": { "id": "petrie-1883", "loc": "ch.7 §36" }
+    },
+    "junctionOnFloor": {
+      "id": "desc-junction",
+      "original": { "value": 1110.64, "unit": "in", "error": 0.1 },
+      "source": { "id": "petrie-1883", "loc": "ch.7 §38" },
+      "note": "Schnittpunkt der Böden, vom Casing-Eingang entlang des absteigenden Bodens."
+    }
+  },
+  "ascending": {
+    "lengthFloor": {
+      "id": "asc-length",
+      "original": { "value": 1546.8, "unit": "in" },
+      "source": { "id": "petrie-1883", "loc": "ch.7 §38" },
+      "note": "Vom Schnitt der Böden bis Galerie-Tür, Ostseite."
+    },
+    "altitude": {
+      "id": "asc-alt",
+      "dms": { "deg": 26, "min": 2, "sec": 30 },
+      "source": { "id": "petrie-1883", "loc": "ch.7 §38–39" }
+    },
+    "endLevel": {
+      "id": "asc-end-level",
+      "original": { "value": 852.6, "unit": "in", "error": 3 },
+      "source": { "id": "petrie-1883", "loc": "ch.7 §39" }
+    },
+    "endNorthOfCenter": {
+      "id": "asc-end-n",
+      "original": { "value": 1626.8, "unit": "in", "error": 0.8 },
+      "source": { "id": "petrie-1883", "loc": "ch.7 §39" }
+    },
+    "plugFromFloorJoin": {
+      "id": "plug-start",
+      "original": { "value": 74.19, "unit": "in" },
+      "source": { "id": "petrie-1883", "loc": "ch.7 §38" }
+    },
+    "plugPresentTop": {
+      "id": "plug-top-now",
+      "original": { "value": 252.7, "unit": "in" },
+      "source": { "id": "petrie-1883", "loc": "ch.7 §38" }
+    },
+    "plugAncientTop": {
+      "id": "plug-top-orig",
+      "original": { "value": 277, "unit": "in" },
+      "source": { "id": "petrie-1883", "loc": "ch.7 §38" },
+      "note": "Petrie schätzt den originalen Stopfen 24 in weiter südlich."
+    },
+    "plugWidthN": {
+      "id": "plug-w-n",
+      "original": { "value": 38.2, "unit": "in" },
+      "source": { "id": "petrie-1883", "loc": "ch.7 §38" }
+    },
+    "plugWidthS": {
+      "id": "plug-w-s",
+      "original": { "value": 41.6, "unit": "in" },
+      "source": { "id": "petrie-1883", "loc": "ch.7 §38" }
+    },
+    "plugHeight": {
+      "id": "plug-h",
+      "original": { "value": 47.3, "unit": "in" },
+      "source": { "id": "petrie-1883", "loc": "ch.7 §38" }
+    }
+  },
+  "gallery": {
+    "lengthSlope": {
+      "id": "gal-length",
+      "original": { "value": 1883.6, "unit": "in" },
+      "source": { "id": "petrie-1883", "loc": "ch.7 §45", "excerptId": "petrie-1883-gallery" },
+      "note": "N-Wand bis S-Wand in derselben Linie."
+    },
+    "altitude": {
+      "id": "gal-alt",
+      "dms": { "deg": 26, "min": 16, "sec": 40 },
+      "source": { "id": "petrie-1883", "loc": "ch.7 §45" }
+    },
+    "southWallLevel": {
+      "id": "gal-s-level",
+      "original": { "value": 1689.0, "unit": "in", "error": 0.5 },
+      "source": { "id": "petrie-1883", "loc": "ch.7 §45" }
+    },
+    "southWallSouthOfCenter": {
+      "id": "gal-s-s",
+      "original": { "value": 61.7, "unit": "in", "error": 0.8 },
+      "source": { "id": "petrie-1883", "loc": "ch.7 §45" }
+    },
+    "widthTop": {
+      "id": "gal-w-top",
+      "original": { "value": 41.1, "unit": "in" },
+      "source": { "id": "petrie-1883", "loc": "ch.7 §46" },
+      "note": "40.9 N, 41.3 S."
+    },
+    "widthFloorBetweenRamps": {
+      "id": "gal-w-floor",
+      "original": { "value": 41.53, "unit": "in" },
+      "source": { "id": "petrie-1883", "loc": "ch.6 §30" }
+    },
+    "widthOverall": {
+      "id": "gal-w-all",
+      "original": { "value": 82.42, "unit": "in", "error": 0.44 },
+      "source": { "id": "petrie-1883", "loc": "ch.6 §30" }
+    },
+    "corbelSum": {
+      "id": "gal-corbel",
+      "original": { "value": 20.55, "unit": "in" },
+      "source": { "id": "petrie-1883", "loc": "ch.7 §46", "excerptId": "petrie-1883-gallery" },
+      "note": "Sieben Kragstufen, zusammen eine Elle, je eine Handbreit."
+    },
+    "corbelCount": 7,
+    "heightHalf": {
+      "id": "gal-half-h",
+      "original": { "value": 169.5, "unit": "in" },
+      "source": { "id": "petrie-1883", "loc": "ch.7 §46" },
+      "note": "Petrie: halbe Höhe 167–172 in; Rille auf halber Höhe."
+    },
+    "holeLong": {
+      "id": "gal-hole-l",
+      "original": { "value": 23.32, "unit": "in" },
+      "source": { "id": "petrie-1883", "loc": "ch.7 §46", "excerptId": "petrie-1883-gallery" }
+    },
+    "holeShort": {
+      "id": "gal-hole-s",
+      "original": { "value": 20.51, "unit": "in" },
+      "source": { "id": "petrie-1883", "loc": "ch.7 §46", "excerptId": "petrie-1883-gallery" }
+    },
+    "stepLength": {
+      "id": "gal-step-len",
+      "original": { "value": 61.1, "unit": "in" },
+      "source": { "id": "petrie-1883", "loc": "ch.7 §46" }
+    },
+    "stepFace": {
+      "id": "gal-step-h",
+      "original": { "value": 35.0, "unit": "in" },
+      "source": { "id": "petrie-1883", "loc": "ch.7 §46" }
+    },
+    "stepTopLevel": {
+      "id": "gal-step-level",
+      "original": { "value": 1693.2, "unit": "in", "error": 0.6 },
+      "source": { "id": "petrie-1883", "loc": "ch.7 §46" }
+    }
+  },
+  "queensPassage": {
+    "lengthToNWall": {
+      "id": "qp-len",
+      "original": { "value": 1524.8, "unit": "in" },
+      "source": { "id": "petrie-1883", "loc": "ch.7 §40" }
+    },
+    "stepAt": {
+      "id": "qp-step",
+      "original": { "value": 1307.0, "unit": "in" },
+      "source": { "id": "petrie-1883", "loc": "ch.7 §40" }
+    },
+    "floorHigh": {
+      "id": "qp-floor-hi",
+      "original": { "value": 852.6, "unit": "in", "error": 0.3 },
+      "source": { "id": "petrie-1883", "loc": "ch.7 §40" }
+    },
+    "floorLow": {
+      "id": "qp-floor-lo",
+      "original": { "value": 834.4, "unit": "in", "error": 0.3 },
+      "source": { "id": "petrie-1883", "loc": "ch.7 §40" }
+    }
+  },
+  "queensChamber": {
+    "ns": {
+      "id": "qc-ns",
+      "original": { "value": 205.85, "unit": "in" },
+      "source": { "id": "petrie-1883", "loc": "ch.7 §41" }
+    },
+    "ew": {
+      "id": "qc-ew",
+      "original": { "value": 226.47, "unit": "in" },
+      "source": { "id": "petrie-1883", "loc": "ch.7 §41" }
+    },
+    "heightWall": {
+      "id": "qc-h-wall",
+      "original": { "value": 184.47, "unit": "in" },
+      "source": { "id": "petrie-1883", "loc": "ch.7 §41" }
+    },
+    "heightRidge": {
+      "id": "qc-h-ridge",
+      "original": { "value": 245.1, "unit": "in" },
+      "source": { "id": "petrie-1883", "loc": "ch.7 §41" }
+    },
+    "nWallNorthOfCenter": {
+      "id": "qc-n",
+      "original": { "value": 102.9, "unit": "in", "error": 0.8 },
+      "source": { "id": "petrie-1883", "loc": "ch.7 §40–41" },
+      "note": "First der Decke in der Mittelebene der Pyramide."
+    },
+    "nicheDepth": {
+      "id": "qc-niche-d",
+      "original": { "value": 41, "unit": "in" },
+      "source": { "id": "petrie-1883", "loc": "ch.7 §43" }
+    },
+    "nicheWidthBase": {
+      "id": "qc-niche-w",
+      "original": { "value": 62, "unit": "in" },
+      "source": { "id": "petrie-1883", "loc": "ch.7 §43" }
+    },
+    "nicheHeight": {
+      "id": "qc-niche-h",
+      "original": { "value": 184, "unit": "in" },
+      "source": { "id": "petrie-1883", "loc": "ch.7 §43" }
+    },
+    "shaftHeight": {
+      "id": "qc-shaft-h",
+      "original": { "value": 8.7, "unit": "in" },
+      "source": { "id": "petrie-1883", "loc": "ch.7 §44" }
+    },
+    "shaftNorthAngle": {
+      "id": "qc-shaft-n",
+      "dms": { "deg": 37, "min": 28, "sec": 0 },
+      "source": { "id": "petrie-1883", "loc": "ch.7 §44" }
+    },
+    "shaftSouthAngle": {
+      "id": "qc-shaft-s",
+      "dms": { "deg": 38, "min": 28, "sec": 0 },
+      "source": { "id": "petrie-1883", "loc": "ch.7 §44" }
+    }
+  },
+  "antechamber": {
+    "fromGallerySouth": {
+      "id": "ac-from-gal",
+      "original": { "value": 52.02, "unit": "in" },
+      "source": { "id": "petrie-1883", "loc": "ch.7 §47" }
+    },
+    "length": {
+      "id": "ac-len",
+      "original": { "value": 116.0, "unit": "in" },
+      "source": { "id": "petrie-1883", "loc": "ch.7 §47–48" },
+      "note": "N-Ende 52.02, S-Ende ~168 vom Galerie-Süd, Differenz ~116."
+    },
+    "width": {
+      "id": "ac-w",
+      "original": { "value": 65.2, "unit": "in" },
+      "source": { "id": "petrie-1883", "loc": "ch.7 §48" }
+    },
+    "height": {
+      "id": "ac-h",
+      "original": { "value": 149.3, "unit": "in" },
+      "source": { "id": "petrie-1883", "loc": "ch.7 §48" }
+    }
+  },
+  "kingsPassage": {
+    "length": {
+      "id": "kp-len",
+      "original": { "value": 101, "unit": "in" },
+      "source": { "id": "petrie-1883", "loc": "ch.7 §47" },
+      "note": "Horizontal von Vorkammer-Süd zur Königskammer-Nordwand, gerundet aus Petries Kette."
+    }
+  },
+  "kingsChamber": {
+    "ew": {
+      "id": "kc-ew",
+      "original": { "value": 412.59, "unit": "in" },
+      "source": { "id": "petrie-1883", "loc": "ch.7 §52", "excerptId": "petrie-1883-kc-plan" },
+      "note": "Mittel der Nordwand. 20 Ellen."
+    },
+    "ns": {
+      "id": "kc-ns",
+      "original": { "value": 206.13, "unit": "in" },
+      "source": { "id": "petrie-1883", "loc": "ch.7 §52" },
+      "note": "Nach Korrektur geöffneter Fugen. 10 Ellen."
+    },
+    "height": {
+      "id": "kc-h",
+      "original": { "value": 230.09, "unit": "in", "error": 0.15 },
+      "source": { "id": "petrie-1883", "loc": "ch.21; ch.7 §55" }
+    },
+    "nWallSouthOfCenter": {
+      "id": "kc-n",
+      "original": { "value": 330.9, "unit": "in" },
+      "source": { "id": "petrie-1883", "loc": "ch.7 §47 + §52" },
+      "note": "Galerie-S 61.7 + Vorkammer-Kette + Gang; Südwand der Kammer 206.13 weiter."
+    },
+    "courseHeight": {
+      "id": "kc-course",
+      "original": { "value": 47.045, "unit": "in" },
+      "source": { "id": "petrie-1883", "loc": "ch.7 §55" },
+      "note": "Fünf Lagen Granit."
+    },
+    "ceilingBeams": 9
+  },
+  "coffer": {
+    "outerLength": {
+      "id": "coffer-l",
+      "original": { "value": 89.62, "unit": "in" },
+      "source": { "id": "petrie-1883", "loc": "ch.7 §60" }
+    },
+    "outerWidth": {
+      "id": "coffer-w",
+      "original": { "value": 38.5, "unit": "in" },
+      "source": { "id": "petrie-1883", "loc": "ch.7 §60" }
+    },
+    "outerHeight": {
+      "id": "coffer-h",
+      "original": { "value": 41.31, "unit": "in" },
+      "source": { "id": "petrie-1883", "loc": "ch.7 §60" }
+    },
+    "innerLength": {
+      "id": "coffer-il",
+      "original": { "value": 78.09, "unit": "in" },
+      "source": { "id": "petrie-1883", "loc": "ch.7 §60" }
+    },
+    "innerWidth": {
+      "id": "coffer-iw",
+      "original": { "value": 26.81, "unit": "in" },
+      "source": { "id": "petrie-1883", "loc": "ch.7 §60" }
+    },
+    "innerDepth": {
+      "id": "coffer-id",
+      "original": { "value": 34.42, "unit": "in" },
+      "source": { "id": "petrie-1883", "loc": "ch.7 §60" }
+    }
+  },
+  "subterranean": {
+    "ew": {
+      "id": "sub-ew",
+      "original": { "value": 553.8, "unit": "in" },
+      "source": { "id": "petrie-1883", "loc": "ch.7 §37" },
+      "note": "N-Wand 553.5, S-Wand 554.1."
+    },
+    "ns": {
+      "id": "sub-ns",
+      "original": { "value": 326, "unit": "in" },
+      "source": { "id": "petrie-1883", "loc": "ch.7 §37" },
+      "note": "O-Wand 325.9."
+    },
+    "nWallNorthOfCenter": {
+      "id": "sub-n",
+      "original": { "value": 40, "unit": "in" },
+      "source": { "id": "petrie-1883", "loc": "ch.7 §37" },
+      "note": "Nordwand 40 in südlich der Mitte — Achse geht nicht durch die Kammer."
+    },
+    "roofLevel": {
+      "id": "sub-roof",
+      "original": { "value": -1056, "unit": "in" },
+      "source": { "id": "petrie-1883", "loc": "ch.7 §37" }
+    },
+    "deadEndLength": {
+      "id": "sub-dead",
+      "original": { "value": 1318, "unit": "in" },
+      "source": { "id": "petrie-1883", "loc": "ch.7 §37" },
+      "note": "Vom Südende des absteigenden Bodens bis Ende des Südgangs."
+    },
+    "horizWidth": {
+      "id": "sub-hw",
+      "original": { "value": 32.5, "unit": "in" },
+      "source": { "id": "petrie-1883", "loc": "ch.7 §37" }
+    },
+    "horizHeight": {
+      "id": "sub-hh",
+      "original": { "value": 36, "unit": "in" },
+      "source": { "id": "petrie-1883", "loc": "ch.7 §37" }
+    }
+  },
+  "relieving": {
+    "count": 5,
+    "eachHeight": {
+      "id": "rel-h",
+      "original": { "value": 36, "unit": "in" },
+      "source": { "id": "petrie-1883", "loc": "ch.7 §62" },
+      "note": "Ungefähre lichte Höhe der unteren Entlastungskammern; oberste mit Giebel. Phase-1-Näherung."
+    }
+  },
+  "bigVoid": {
+    "minLength": {
+      "id": "void-len",
+      "original": { "value": 30, "unit": "m" },
+      "source": { "id": "scanpyramids-2017", "loc": "Nature 552" },
+      "note": "Mindestlänge. Querschnitt ähnlich Große Galerie. Lage über der Galerie, Form nicht vermessen."
+    }
+  }
+}

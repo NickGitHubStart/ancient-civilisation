@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Great Year</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Outfit:wght@300;400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/src/styles.css" />
+  </head>
+  <body>
+    <canvas id="c"></canvas>
+
+    <nav id="exhibits" aria-label="Szenen">
+      <a id="ex-year" href="#/year">Great Year</a>
+      <a id="ex-giza" href="#/giza">Giza</a>
+    </nav>
+
+    <div id="hud">
+      <header>
+        <div id="year">2026 n. Chr.</div>
+        <div id="sign">Fische</div>
+      </header>
+
+      <aside id="abc" aria-label="Eiszeit-Bedingungen">
+        <button type="button" data-cond="A" title="Bahnform">
+          <span>A</span>
+          <em>Bahn</em>
+        </button>
+        <button type="button" data-cond="B" title="Achsenneigung">
+          <span>B</span>
+          <em><span class="lbl">Achse</span> <small id="tilt">23,4°</small></em>
+        </button>
+        <button type="button" data-cond="C" title="Nord-Sommer weit von der Sonne">
+          <span>C</span>
+          <em>Sommer</em>
+        </button>
+      </aside>
+
+      <p id="hint"></p>
+
+      <footer>
+        <div id="time">
+          <button type="button" id="play" aria-label="Abspielen">▶</button>
+          <div id="tempo">
+            <button type="button" id="tempo-toggle" aria-expanded="false" aria-haspopup="listbox">
+              72 Jahre
+            </button>
+            <div id="tempo-menu" hidden role="listbox">
+              <button type="button" data-tempo="1">1 Jahr</button>
+              <button type="button" data-tempo="72" class="on">72 Jahre</button>
+              <button type="button" data-tempo="2160">2160 Jahre</button>
+            </div>
+          </div>
+          <div id="slider-wrap">
+            <input id="slider" type="range" />
+            <div id="ticks">
+              <span>80.000 v. Chr.</span>
+              <span>heute</span>
+              <span>20.000 n. Chr.</span>
+            </div>
+          </div>
+        </div>
+
+        <button type="button" id="tour-btn">Präzession</button>
+      </footer>
+    </div>
+
+    <div id="tour" hidden>
+      <div id="tour-step"></div>
+      <h2 id="tour-title"></h2>
+      <p id="tour-text"></p>
+      <div class="tour-nav">
+        <button type="button" id="tour-skip">Schließen</button>
+        <button type="button" id="tour-next">Weiter</button>
+      </div>
+    </div>
+
+    <div id="giza-hud" hidden>
+      <header>
+        <div id="giza-title">Khufu</div>
+        <div id="giza-sub">Giza · Original</div>
+      </header>
+
+      <aside id="giza-tools" aria-label="Ansicht">
+        <div id="giza-modes" class="pill-col">
+          <button type="button" data-mode="orbit" class="on">Orbit</button>
+          <button type="button" data-mode="fly">Flug</button>
+          <button type="button" data-mode="walk">Lauf</button>
+        </div>
+        <button type="button" id="giza-cut" class="on">Schnitt an</button>
+        <button type="button" id="giza-source-toggle">Quellen</button>
+      </aside>
+
+      <div id="giza-units" aria-label="Einheit">
+        <button type="button" data-unit="m" class="on">m</button>
+        <button type="button" data-unit="cubit">Elle</button>
+        <button type="button" data-unit="ft">ft</button>
+        <button type="button" data-unit="in">in</button>
+      </div>
+
+      <p id="giza-hint"></p>
+
+      <aside id="giza-panel" hidden>
+        <button type="button" id="giza-panel-close" aria-label="Schließen">×</button>
+        <h2 id="giza-panel-title"></h2>
+        <div id="giza-panel-body"></div>
+      </aside>
+
+      <aside id="giza-sources" hidden>
+        <h3>Quellen in diesem Modell</h3>
+        <div id="giza-source-list"></div>
+      </aside>
+    </div>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

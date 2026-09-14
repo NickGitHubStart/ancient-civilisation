@@ -1,0 +1,5 @@
+The mean dimensions of the Pyramid are thus: North to South 230.374 m, azimuth 359° 56′ 00″; East to West 230.354 m, azimuth 89° 57′ 48″; General Mean 230.364 m, 3′ 06″.
+
+Sides: North 230.253 m, true azimuth 89° 57′ 32″; South 230.454 m, 89° 58′ 03″; East 230.391 m, 359° 54′ 30″; West 230.357 m, 359° 57′ 30″.
+
+— J. H. Cole, Determination of the Exact Size and Orientation of the Great Pyramid of Gîza (1925)

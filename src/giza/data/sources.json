@@ -1,0 +1,93 @@
+{
+  "petrie-1883": {
+    "id": "petrie-1883",
+    "author": "W. M. Flinders Petrie",
+    "title": "The Pyramids and Temples of Gizeh",
+    "year": 1883,
+    "publisher": "Field & Tuer, London",
+    "license": "pd",
+    "url": "https://www.ronaldbirdsall.com/gizeh/petrie/",
+    "note": "Hauptquelle für das Innere. Maße in britischen Zoll. Online-Transkription: Ronald Birdsall."
+  },
+  "cole-1925": {
+    "id": "cole-1925",
+    "author": "J. H. Cole",
+    "title": "Determination of the Exact Size and Orientation of the Great Pyramid of Gîza",
+    "year": 1925,
+    "publisher": "Survey of Egypt Paper No. 39, Government Press, Cairo",
+    "license": "pd",
+    "url": "https://bibliotecapleyades.net/arqueologia/worldwonders/cole2.htm",
+    "note": "Basisseiten und Azimute in Metern. Mittel der Ausrichtung 3′ 06″ westlich von True North."
+  },
+  "lehner-1997": {
+    "id": "lehner-1997",
+    "author": "Mark Lehner",
+    "title": "The Complete Pyramids",
+    "year": 1997,
+    "publisher": "Thames & Hudson",
+    "license": "cite-only",
+    "url": null,
+    "note": "Synthese der Giza Plateau Mapping Project-Vermessung. Kein Volltext."
+  },
+  "scanpyramids-2017": {
+    "id": "scanpyramids-2017",
+    "author": "Kunihiro Morishima, Mitsuaki Kuno, Akira Nishio et al.",
+    "title": "Discovery of a big void in Khufu’s Pyramid by observation of cosmic-ray muons",
+    "year": 2017,
+    "publisher": "Nature 552, 386–390",
+    "license": "cite-only",
+    "doi": "10.1038/nature24647",
+    "url": "https://www.nature.com/articles/nature24647",
+    "note": "ScanPyramids Big Void: ≥ 30 m, Querschnitt ähnlich der Großen Galerie, über der Galerie."
+  },
+  "dash-2015": {
+    "id": "dash-2015",
+    "author": "Glen Dash",
+    "title": "Where, Precisely, are the Three Pyramids of Giza?",
+    "year": 2017,
+    "publisher": "Glen Dash Foundation / AERAgram (rev. 5 May 2017)",
+    "license": "cite-only",
+    "url": "http://www.dashfoundation.org/Surveys-at-Giza.htm",
+    "note": "Relative Positionen der drei Pyramidenzentren auf dem GPMP-Grid."
+  },
+  "stecchini-hancock": {
+    "id": "stecchini-hancock",
+    "author": "Livio C. Stecchini; Graham Hancock",
+    "title": "Fingerprints of the Gods (Hancock, nach Stecchini)",
+    "year": 1995,
+    "publisher": "Crown / Heinemann",
+    "license": "cite-only",
+    "url": null,
+    "note": "Theorie: Umfang × 43 200 ≈ Äquatorumfang, Höhe × 43 200 ≈ Polaradius. Nicht vermessen, Deutung."
+  },
+  "bauval-1994": {
+    "id": "bauval-1994",
+    "author": "Robert Bauval, Adrian Gilbert",
+    "title": "The Orion Mystery",
+    "year": 1994,
+    "publisher": "Crown",
+    "license": "cite-only",
+    "url": null,
+    "note": "Theorie: drei Pyramiden = Gürtel des Orion; Luftschächte auf Alnitak/Alnilam bzw. Sirius/Kochab."
+  },
+  "dunn-1998": {
+    "id": "dunn-1998",
+    "author": "Christopher Dunn",
+    "title": "The Giza Power Plant",
+    "year": 1998,
+    "publisher": "Bear & Company",
+    "license": "cite-only",
+    "url": null,
+    "note": "Theorie: Königskammer als Schwingungs-/Maschinenraum. Nicht die Vermessung."
+  },
+  "collins-2019": {
+    "id": "collins-2019",
+    "author": "Andrew Collins",
+    "title": "The Great Pyramid Experiment: Measuring the Sonic Capabilities of the Dead-end Passage",
+    "year": 2019,
+    "publisher": "Ancient Origins",
+    "license": "cite-only",
+    "url": "https://www.ancient-origins.net/artifacts-other-artifacts/great-pyramid-0012166",
+    "note": "Gemessene Raummoden: Königskammer-Peak ~49,5 Hz; Königinnenkammer ~118–120 Hz. Experiment, keine Maschinen-Behauptung."
+  }
+}
