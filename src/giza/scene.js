@@ -33,7 +33,10 @@ export function createGizaScene(khufu, plateau, hotspotItems) {
   sun.position.set(220, 280, 140);
   sun.castShadow = false;
   scene.add(sun);
-  scene.add(new THREE.AmbientLight("#3a3228", 0.35));
+  const cutFill = new THREE.DirectionalLight("#efe6d2", 1.35);
+  cutFill.position.set(420, 90, 20);
+  scene.add(cutFill);
+  scene.add(new THREE.AmbientLight("#4a4034", 0.55));
 
   const ground = new THREE.Mesh(desert(2400), mats.sand);
   ground.rotation.x = -Math.PI / 2;
@@ -52,7 +55,7 @@ export function createGizaScene(khufu, plateau, hotspotItems) {
   scene.add(makeNeighbor("khafre", plateau.khafre, mats));
   scene.add(makeNeighbor("menkaure", plateau.menkaure, mats));
 
-  const cutaway = createCutaway(layout, mats.casing);
+  const cutaway = createCutaway(layout, [mats.casing, mats.casingInner, mats.pavement]);
   const hot = createHotspots(hotspotItems, layout);
   khufuGroup.add(hot.group);
 

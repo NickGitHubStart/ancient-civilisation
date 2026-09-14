@@ -51,6 +51,7 @@
               72 Jahre
             </button>
             <div id="tempo-menu" hidden role="listbox">
+              <button type="button" data-tempo="month">1 Monat</button>
               <button type="button" data-tempo="1">1 Jahr</button>
               <button type="button" data-tempo="72" class="on">72 Jahre</button>
               <button type="button" data-tempo="2160">2160 Jahre</button>
@@ -104,6 +105,16 @@
       </div>
 
       <p id="giza-hint"></p>
+
+      <div id="giza-note" role="dialog" aria-labelledby="giza-note-title">
+        <p id="giza-note-kicker">Zukunft</p>
+        <h2 id="giza-note-title">Noch kein Spiel, noch kein CAD</h2>
+        <p id="giza-note-text">
+          Das hier ist ein maßgenaues Lehr-Modell in Three.js — zum Verstehen der Kammern, nicht zum Durchlaufen wie ein Scan.
+          Später soll daraus ein echtes CAD-Modell werden, oder Unity (oder ähnlich): begehbar wie ein Videospiel, und präziser als jetzt.
+        </p>
+        <button type="button" id="giza-note-close">Verstanden</button>
+      </div>
 
       <aside id="giza-panel" hidden>
         <button type="button" id="giza-panel-close" aria-label="Schließen">×</button>

@@ -106,7 +106,7 @@ export function createHotspots(items, layout) {
     });
     const s = new THREE.Sprite(mat);
     s.position.copy(pos);
-    s.scale.set(2.4, 2.4, 1);
+    s.scale.set(4.8, 4.8, 1);
     s.userData.hotspot = item;
     group.add(s);
     sprites.push(s);

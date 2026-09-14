@@ -58,7 +58,7 @@ export async function startYear(canvas) {
 
     if (state.playing) {
       ui.setYear(state.year + dt * state.tempo);
-      if (state.tempo === 1) {
+      if (state.tempo <= 1) {
         const frac = state.year - Math.floor(state.year);
         state.orbitPhase = vernalLongitude(state.year) + Math.PI + frac * Math.PI * 2;
         state.dayPhase += dt * 0.9;

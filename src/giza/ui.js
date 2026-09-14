@@ -54,6 +54,8 @@ export function createGizaUI({
   const drawer = document.getElementById("giza-sources");
   const drawerList = document.getElementById("giza-source-list");
   const hint = document.getElementById("giza-hint");
+  const note = document.getElementById("giza-note");
+  const noteClose = document.getElementById("giza-note-close");
 
   function setUnit(next) {
     unit = next;
@@ -141,6 +143,10 @@ export function createGizaUI({
       ${srcBlock}
     `;
   }
+
+  noteClose.addEventListener("click", () => {
+    note.hidden = true;
+  });
 
   function setHint(text) {
     hint.textContent = text;

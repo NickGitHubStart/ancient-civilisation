@@ -101,10 +101,10 @@ export function createControls(camera, canvas, colliders) {
   }
 
   function lookEastCutaway(layout) {
-    camera.position.set(layout.half + 180, layout.height * 0.42, 30);
-    orbit.target.set(layout.east, layout.height * 0.28, 0);
+    camera.position.set(layout.half + 220, layout.height * 0.55, 40);
+    orbit.target.set(layout.east, layout.height * 0.32, 8);
     orbit.update();
-    camera.lookAt(layout.east, layout.height * 0.28, 0);
+    camera.lookAt(layout.east, layout.height * 0.32, 8);
   }
 
   return { orbit, walk, tick, setMode, get mode() { return mode; }, lookEastCutaway };

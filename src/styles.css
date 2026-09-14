@@ -500,6 +500,62 @@ footer {
   opacity: 0.88;
 }
 
+#giza-note {
+  position: absolute;
+  left: 50%;
+  top: 28%;
+  transform: translateX(-50%);
+  width: min(32rem, calc(100vw - 48px));
+  pointer-events: auto;
+  text-align: center;
+  background: rgba(8, 10, 16, 0.9);
+  border: 1px solid rgba(215, 181, 106, 0.28);
+  padding: 28px 28px 24px;
+  backdrop-filter: blur(10px);
+}
+
+#giza-note[hidden] {
+  display: none;
+}
+
+#giza-note-kicker {
+  font-size: 11px;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 10px;
+}
+
+#giza-note-title {
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: 28px;
+  font-weight: 500;
+  margin-bottom: 12px;
+}
+
+#giza-note-text {
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: 18px;
+  font-style: italic;
+  line-height: 1.4;
+  color: var(--cream);
+  margin-bottom: 20px;
+}
+
+#giza-note-close {
+  appearance: none;
+  background: transparent;
+  border: 1px solid rgba(215, 181, 106, 0.55);
+  color: var(--gold);
+  font-family: inherit;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 8px 16px;
+  border-radius: 999px;
+  cursor: pointer;
+}
+
 #giza-panel,
 #giza-sources {
   position: absolute;

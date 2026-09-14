@@ -23,11 +23,20 @@ function pyramidGeometry(base, height) {
   return g;
 }
 
-export function makePyramidShell(base, height, material, name) {
-  const mesh = new THREE.Mesh(pyramidGeometry(base, height), material);
+export function makePyramidShell(base, height, material, name, innerMaterial) {
+  const geom = pyramidGeometry(base, height);
+  const mesh = new THREE.Mesh(geom, material);
   mesh.name = name;
   mesh.castShadow = true;
   mesh.receiveShadow = true;
+  const group = new THREE.Group();
+  group.add(mesh);
+  if (innerMaterial) {
+    const inner = new THREE.Mesh(geom, innerMaterial);
+    inner.name = `${name}-inner`;
+    group.add(inner);
+    group.userData.inner = inner;
+  }
   const cap = new THREE.Mesh(
     new THREE.ConeGeometry(Math.max(0.6, base * 0.008), height * 0.018, 4),
     material
@@ -35,8 +44,7 @@ export function makePyramidShell(base, height, material, name) {
   cap.rotation.y = Math.PI / 4;
   cap.position.y = height + height * 0.009;
   cap.name = `${name}-pyramidion`;
-  const group = new THREE.Group();
-  group.add(mesh, cap);
+  group.add(cap);
   group.userData.shell = mesh;
   return group;
 }
@@ -45,7 +53,13 @@ export function makeKhufuExterior(layout, materials) {
   const group = new THREE.Group();
   group.name = "khufu-exterior";
 
-  const shell = makePyramidShell(layout.base, layout.height, materials.casing, "khufu-casing");
+  const shell = makePyramidShell(
+    layout.base,
+    layout.height,
+    materials.casing,
+    "khufu-casing",
+    materials.casingInner
+  );
   group.add(shell);
 
   const pave = new THREE.Mesh(

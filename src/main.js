@@ -19,10 +19,14 @@ function syncNav() {
 syncNav();
 addEventListener("hashchange", () => location.reload());
 
-if (exhibit() === "giza") {
-  const { startGiza } = await import("./giza/app.js");
-  await startGiza(canvas);
-} else {
-  const { startYear } = await import("./year.js");
-  await startYear(canvas);
+async function boot() {
+  if (exhibit() === "giza") {
+    const { startGiza } = await import("./giza/app.js");
+    await startGiza(canvas);
+  } else {
+    const { startYear } = await import("./year.js");
+    await startYear(canvas);
+  }
 }
+
+boot();

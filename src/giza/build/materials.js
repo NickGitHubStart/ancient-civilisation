@@ -60,7 +60,16 @@ export function makeMaterials() {
     color: "#e2d3b6",
     roughness: 0.42,
     metalness: 0.05,
-    side: THREE.DoubleSide,
+    side: THREE.FrontSide,
+  });
+
+  const casingInner = new THREE.MeshStandardMaterial({
+    color: "#cbbba0",
+    roughness: 0.7,
+    metalness: 0.02,
+    side: THREE.BackSide,
+    emissive: "#2c2618",
+    emissiveIntensity: 0.35,
   });
 
   const core = new THREE.MeshStandardMaterial({
@@ -114,5 +123,5 @@ export function makeMaterials() {
     metalness: 0.02,
   });
 
-  return { casing, core, limestone, granite, sand, gold, ghost, pavement, courses };
+  return { casing, casingInner, core, limestone, granite, sand, gold, ghost, pavement, courses };
 }

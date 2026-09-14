@@ -3,7 +3,7 @@ import { YEAR_MAX, YEAR_MIN, formatTilt, formatYear } from "./astro.js";
 const TOUR = [
   {
     title: "Ein Jahr",
-    text: "Jedes Jahr umrundet die Erde die Sonne einmal. Dabei wandert die Sonne vorwärts durch die zwölf Sternbilder — ungefähr eines pro Monat. Das ist der Jahreskalender. Noch keine Präzession.",
+    text: "Jedes Jahr umrundet die Erde die Sonne einmal. Dabei wandert die Sonne vorwärts durch die zwölf Sternbilder — ungefähr eines pro Monat.",
     cam: { x: 10, y: 16, z: 18 },
     year: 2026,
     tempo: 1,
@@ -11,13 +11,13 @@ const TOUR = [
   },
   {
     title: "Hinter der Sonne",
-    text: "Tagsüber siehst du das Sternbild nicht — die Sonne überstrahlt es. Nachts steht das gegenüberliegende am Himmel. Daraus wussten sie, wo die Sonne steht.",
+    text: "Tagsüber überstrahlt die Sonne das Sternbild. Nachts steht das gegenüberliegende am Himmel. Daraus wussten sie, wo die Sonne steht.",
     cam: { x: 14, y: 10, z: 22 },
     play: false,
   },
   {
     title: "Der Zeiger",
-    text: "Ein Tag ist fest: der 21. März, Frühlingsanfang. An diesem Tag steht die Sonne vor genau einem Sternbild. Das ist der Zeiger des Weltalters — heute die Fische.",
+    text: "Am 21. März, Frühlingsanfang, steht die Sonne vor genau einem Sternbild. Das ist der Zeiger des Weltalters — heute die Fische.",
     cam: { x: 8, y: 14, z: 20 },
     tempo: 72,
     play: false,
@@ -25,26 +25,26 @@ const TOUR = [
   },
   {
     title: "Präzession",
-    text: "Die Achse taumelt wie ein Kreisel, einmal in 25.920 Jahren. Deshalb kriecht dieser Zeiger rückwärts durch die Sternbilder. Nicht in einem Jahr. Ein Grad braucht 72 Jahre — länger als ein Leben.",
+    text: "Die Achse taumelt wie ein Kreisel, einmal in 25.920 Jahren. Deshalb kriecht dieser Zeiger rückwärts durch die Sternbilder. Ein Grad braucht 72 Jahre.",
     cam: { x: 6, y: 22, z: 16 },
     tempo: 72,
     play: true,
   },
   {
     title: "Die Zahlen",
-    text: "72 Jahre = 1°. Ein Haus hat 30°, also 2.160 Jahre. Zwölf Häuser: 25.920 Jahre. Das ist Hancock’s Great Year — ein voller Umlauf des Zeigers.",
+    text: "72 Jahre = 1°. Ein Sternbild hat 30°, also 2.160 Jahre. Zwölf Sternbilder: 25.920 Jahre. Das ist Hancock’s Great Year — ein voller Umlauf des Zeigers.",
     cam: { x: 4, y: 28, z: 10 },
     play: false,
   },
   {
-    title: "Nicht die 41.000",
-    text: "Die 41.000 Jahre gehören nicht zu den Sternbildern. Die Achse nickt nur zwischen 22,1° und 24,5° — die Zahl unter B. Das ändert, wie stark Sommer und Winter sind. Das Sternbild ändert das nicht.",
+    title: "Die Neigung",
+    text: "Die Achse lehnt 22,1° bis 24,5° von der Senkrechten weg — die Zahl unter B. Je weiter sie lehnt, desto höher steht die Sommersonne über den Polen und desto tiefer die Wintersonne. Deshalb werden Sommer wärmer und Winter kälter. Steht sie steiler, bleiben beide gemäßigter.",
     cam: { x: 16, y: 10, z: 16 },
     play: false,
   },
   {
     title: "Drei Uhren",
-    text: "A Bahn, rund 100.000 Jahre: wie oval die Ellipse ist. B Neigung, 41.000 Jahre: 22° bis 24,5°. C Präzession, 26.000 Jahre: der Zeiger durch die Sternbilder. Nur C wechselt das Weltalter.",
+    text: "A Bahn, rund 100.000 Jahre: wie oval die Ellipse ist. B Neigung, 41.000 Jahre: 22° bis 24,5°, wie stark Sommer und Winter sind. C Präzession, 26.000 Jahre: der Zeiger durch die Sternbilder.",
     cam: { x: 12, y: 18, z: 18 },
     play: false,
   },
@@ -59,7 +59,7 @@ const TOUR = [
 
 const EXPLAIN = {
   A: "Die Bahn ist am länglichsten. Am fernsten Punkt liegt die Erde Millionen Meilen weiter von der Sonne.",
-  B: "Die Achse steht steiler, die Pole näher an der Senkrechten. Sommer in hohen Breiten werden schwach.",
+  B: "Die Achse lehnt 22,1° bis 24,5° von der Senkrechten. Je weiter, desto höher die Sommersonne über den Polen — Sommer wärmer, Winter kälter. Steiler: beides gemäßigter.",
   C: "Durch die Präzession fällt der Winter einer Halbkugel auf den fernsten Punkt der Bahn.",
 };
 
@@ -74,12 +74,18 @@ export function createUI(state, camera) {
   const tourStep = document.getElementById("tour-step");
   const tourTitle = document.getElementById("tour-title");
   const tourText = document.getElementById("tour-text");
+  const tourNext = document.getElementById("tour-next");
   const condBtns = [...document.querySelectorAll("#abc button")];
   const tempoWrap = document.getElementById("tempo");
   const tempoToggle = document.getElementById("tempo-toggle");
   const tempoMenu = document.getElementById("tempo-menu");
   const tempoBtns = [...tempoMenu.querySelectorAll("button")];
-  const TEMPO_LABEL = { 1: "1 Jahr", 72: "72 Jahre", 2160: "2160 Jahre" };
+  const TEMPO = {
+    month: { yearsPerSec: 1 / 12, label: "1 Monat" },
+    1: { yearsPerSec: 1, label: "1 Jahr" },
+    72: { yearsPerSec: 72, label: "72 Jahre" },
+    2160: { yearsPerSec: 2160, label: "2160 Jahre" },
+  };
 
   slider.min = YEAR_MIN;
   slider.max = YEAR_MAX;
@@ -109,10 +115,14 @@ export function createUI(state, camera) {
   }
 
   function setTempo(tempo) {
-    state.tempo = tempo;
-    tempoToggle.textContent = TEMPO_LABEL[tempo];
+    const id = String(tempo);
+    const t = TEMPO[id];
+    if (!t) return;
+    state.tempo = t.yearsPerSec;
+    state.tempoId = id;
+    tempoToggle.textContent = t.label;
     tempoBtns.forEach((b) => {
-      const on = Number(b.dataset.tempo) === tempo;
+      const on = b.dataset.tempo === id;
       b.classList.toggle("on", on);
       b.setAttribute("aria-pressed", on ? "true" : "false");
     });
@@ -141,7 +151,7 @@ export function createUI(state, camera) {
   tempoBtns.forEach((b) =>
     b.addEventListener("click", (e) => {
       e.stopPropagation();
-      setTempo(Number(b.dataset.tempo));
+      setTempo(b.dataset.tempo);
     })
   );
 
@@ -170,10 +180,10 @@ export function createUI(state, camera) {
 
   document.getElementById("tour-btn").addEventListener("click", startTour);
   document.getElementById("tour-skip").addEventListener("click", endTour);
-  document.getElementById("tour-next").addEventListener("click", () => {
+  tourNext.addEventListener("click", () => {
+    if (tourIndex >= TOUR.length - 1) return;
     tourIndex += 1;
-    if (tourIndex >= TOUR.length) endTour();
-    else applyTour(TOUR[tourIndex]);
+    applyTour(TOUR[tourIndex]);
   });
 
   window.addEventListener("keydown", (e) => {
@@ -214,6 +224,7 @@ export function createUI(state, camera) {
     if (step.year != null) setYear(step.year);
     if (step.snap || (step.tempo && step.tempo !== 1)) state.snapSpring = true;
     setPlaying(!!step.play);
+    tourNext.hidden = tourIndex >= TOUR.length - 1;
   }
 
   function tick(dt, cond, signName) {
