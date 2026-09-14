@@ -30,6 +30,17 @@ export function formatTilt(eps) {
   return `${d.toLocaleString("de-DE", { minimumFractionDigits: 1, maximumFractionDigits: 1 })}°`;
 }
 
+export function formatPointer(year, today = 2026) {
+  const deg = (year - today) / YEAR_PER_DEGREE;
+  const n = Math.abs(deg).toLocaleString("de-DE", {
+    minimumFractionDigits: 1,
+    maximumFractionDigits: 1,
+  });
+  if (Math.abs(deg) < 0.05) return "0°";
+  if (deg > 0) return `${n}° westlich`;
+  return `${n}°`;
+}
+
 export function vernalLongitude(year) {
   return -((year - EPOCH) / GREAT_YEAR) * Math.PI * 2;
 }

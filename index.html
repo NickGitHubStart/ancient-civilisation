@@ -26,6 +26,14 @@
         <div id="sign">Fische</div>
       </header>
 
+      <aside id="extras">
+        <button type="button" id="extras-toggle" aria-pressed="true" title="Zeigergrad">°</button>
+        <div id="pointer-readout">
+          <span class="kicker">Zeiger</span>
+          <span id="pointer-deg">0°</span>
+        </div>
+      </aside>
+
       <aside id="abc" aria-label="Eiszeit-Bedingungen">
         <button type="button" data-cond="A" title="Bahnform">
           <span>A</span>
@@ -56,6 +64,7 @@
               <button type="button" data-tempo="72" class="on">72 Jahre</button>
               <button type="button" data-tempo="2160">2160 Jahre</button>
             </div>
+            <p id="tempo-hint">1° = 72 Jahre</p>
           </div>
           <div id="slider-wrap">
             <input id="slider" type="range" />

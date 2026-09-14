@@ -1,4 +1,4 @@
-import { YEAR_MAX, YEAR_MIN, formatTilt, formatYear } from "./astro.js";
+import { YEAR_MAX, YEAR_MIN, formatPointer, formatTilt, formatYear } from "./astro.js";
 
 const TOUR = [
   {
@@ -67,6 +67,9 @@ export function createUI(state, camera) {
   const yearEl = document.getElementById("year");
   const signEl = document.getElementById("sign");
   const tiltEl = document.getElementById("tilt");
+  const pointerEl = document.getElementById("pointer-deg");
+  const extrasEl = document.getElementById("extras");
+  const extrasToggle = document.getElementById("extras-toggle");
   const hintEl = document.getElementById("hint");
   const slider = document.getElementById("slider");
   const playBtn = document.getElementById("play");
@@ -128,6 +131,13 @@ export function createUI(state, camera) {
     });
     setTempoOpen(false);
   }
+
+  extrasToggle.addEventListener("click", (e) => {
+    e.stopPropagation();
+    const on = extrasToggle.getAttribute("aria-pressed") !== "true";
+    extrasToggle.setAttribute("aria-pressed", on ? "true" : "false");
+    extrasEl.classList.toggle("off", !on);
+  });
 
   function setPlaying(on) {
     state.playing = on;
@@ -230,6 +240,7 @@ export function createUI(state, camera) {
   function tick(dt, cond, signName) {
     signEl.textContent = signName;
     tiltEl.textContent = formatTilt(cond.eps);
+    pointerEl.textContent = formatPointer(state.year);
     condBtns.forEach((b) => {
       const k = b.dataset.cond;
       b.classList.toggle("on", cond["on" + k]);
