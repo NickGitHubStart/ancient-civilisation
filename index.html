@@ -27,32 +27,55 @@
       </header>
 
       <aside id="extras">
-        <button type="button" id="extras-toggle" aria-pressed="true" title="Zeigergrad">°</button>
         <div id="pointer-readout">
-          <span class="kicker">Zeiger</span>
+          <span class="kicker">Weg seit heute</span>
           <span id="pointer-deg">0°</span>
         </div>
+        <button type="button" id="planets-toggle" aria-pressed="false" title="Planeten">Planeten</button>
+
       </aside>
 
-      <aside id="abc" aria-label="Eiszeit-Bedingungen">
-        <button type="button" data-cond="A" title="Bahnform">
-          <span>A</span>
-          <em>Bahn</em>
-        </button>
-        <button type="button" data-cond="B" title="Achsenneigung">
-          <span>B</span>
-          <em><span class="lbl">Achse</span> <small id="tilt">23,4°</small></em>
-        </button>
-        <button type="button" data-cond="C" title="Nord-Sommer weit von der Sonne">
-          <span>C</span>
-          <em>Sommer</em>
-        </button>
-      </aside>
+      <div id="left-col">
+        <aside id="abc" aria-label="Eiszeit-Bedingungen">
+          <button type="button" data-cond="A" title="Bahnform">
+            <span>A</span>
+            <em>Bahn</em>
+          </button>
+          <button type="button" data-cond="B" title="Achsenneigung">
+            <span>B</span>
+            <em><span class="lbl">Achse</span> <small id="tilt">23,4°</small></em>
+          </button>
+          <button type="button" data-cond="C" title="Nord-Sommer weit von der Sonne">
+            <span>C</span>
+            <em>Sommer</em>
+          </button>
+        </aside>
+        <div id="crust-panel" hidden>
+          <aside id="crust-conds" aria-label="Bedingungen der Krustenverschiebung">
+            <button type="button" data-gate="ice">
+              <span>1</span>
+              <em>Eis</em>
+            </button>
+            <button type="button" data-gate="spin">
+              <span>2</span>
+              <em>Drehung</em>
+            </button>
+            <button type="button" data-gate="gate">
+              <span>3</span>
+              <em>Schwelle</em>
+            </button>
+          </aside>
+        </div>
+        <button type="button" id="shift-play">Earth Crust Displacement</button>
+        <button type="button" id="tour-btn">Präzession</button>
+      </div>
+
+      <p id="crust-caption" hidden>Die Eismasse liegt schief am Pol. Die Drehung schiebt sie, bis die Kruste auf dem Mantel gleitet und die Antarktis in den Pol rutscht.</p>
 
       <p id="hint"></p>
 
       <footer>
-        <div id="time">
+        <div id="speed-stack">
           <button type="button" id="play" aria-label="Abspielen">▶</button>
           <div id="tempo">
             <button type="button" id="tempo-toggle" aria-expanded="false" aria-haspopup="listbox">
@@ -66,17 +89,14 @@
             </div>
             <p id="tempo-hint">1° = 72 Jahre</p>
           </div>
-          <div id="slider-wrap">
-            <input id="slider" type="range" />
-            <div id="ticks">
-              <span>80.000 v. Chr.</span>
-              <span>heute</span>
-              <span>20.000 n. Chr.</span>
-            </div>
+        </div>
+        <div id="slider-wrap">
+          <input id="slider" type="range" />
+          <div id="ticks">
+            <span>80.000 v. Chr.</span>
+            <span>20.000 n. Chr.</span>
           </div>
         </div>
-
-        <button type="button" id="tour-btn">Präzession</button>
       </footer>
     </div>
 

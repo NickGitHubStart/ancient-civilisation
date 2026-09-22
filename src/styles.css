@@ -81,23 +81,44 @@ header {
   top: 36px;
   right: 28px;
   display: flex;
-  align-items: flex-start;
-  gap: 12px;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 10px;
 }
 
+#planets-toggle,
 #extras-toggle {
   appearance: none;
   -webkit-appearance: none;
   background-color: transparent !important;
   border: 1px solid rgba(215, 181, 106, 0.28);
+  color: var(--gold);
+  cursor: pointer;
+  font-family: inherit;
+  line-height: 1;
+}
+
+#planets-toggle {
+  border-radius: 999px;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 8px 12px;
+}
+
+#planets-toggle.on,
+#planets-toggle[aria-pressed="true"] {
+  color: #1a140c;
+  background: var(--gold) !important;
+  border-color: var(--gold);
+}
+
+#extras-toggle {
   border-radius: 50%;
   width: 28px;
   height: 28px;
-  color: var(--gold);
-  cursor: pointer;
   font-family: "Cormorant Garamond", Georgia, serif;
   font-size: 16px;
-  line-height: 1;
   padding: 0;
 }
 
@@ -131,9 +152,7 @@ header {
 }
 
 #abc {
-  position: absolute;
-  left: 28px;
-  top: 120px;
+  position: static;
   display: flex;
   flex-direction: column;
   gap: 18px;
@@ -243,18 +262,166 @@ header {
   opacity: 0.88;
 }
 
-footer {
+#left-col {
   position: absolute;
   left: 28px;
-  right: 28px;
-  bottom: 24px;
+  top: 120px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 14px;
+  pointer-events: auto;
+  z-index: 21;
+}
+
+#crust-caption {
+  position: absolute;
+  left: 50%;
+  bottom: 108px;
+  transform: translateX(-50%);
+  width: min(36rem, 80vw);
+  text-align: center;
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: 18px;
+  line-height: 1.35;
+  color: var(--cream);
+  pointer-events: none;
+}
+
+#crust-caption[hidden] {
+  display: none;
+}
+
+#shift-play {
+  max-width: 11rem;
+  white-space: normal;
+  text-align: left;
+  line-height: 1.35;
+}
+
+#shift-play.on {
+  color: #1a140c;
+  background: var(--gold);
+  border-color: var(--gold);
+}
+
+#crust-panel {
+  color: var(--cream);
+}
+
+#crust-conds {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  margin-bottom: 22px;
+}
+
+#crust-conds button {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: transparent !important;
+  border: 0;
+  border-radius: 0;
+  padding: 0;
+  color: var(--mute);
+  letter-spacing: 0.28em;
+  cursor: pointer;
+}
+
+#crust-conds button span {
+  width: 36px;
+  height: 36px;
+  border: 1px solid rgba(215, 181, 106, 0.25);
+  border-radius: 50%;
   display: grid;
-  grid-template-columns: 1fr auto;
-  gap: 24px;
-  align-items: end;
+  place-items: center;
+  font-size: 13px;
+  letter-spacing: 0.08em;
+}
+
+#crust-conds button em {
+  font-style: normal;
+  font-size: 11px;
+  opacity: 0.7;
+}
+
+#crust-conds button.on {
+  color: var(--ice);
+}
+
+#crust-conds button.on span {
+  color: var(--ice);
+  border-color: var(--ice);
+  box-shadow: 0 0 18px rgba(159, 212, 234, 0.35);
+}
+
+#shift-play.on {
+  color: #1a140c;
+  background: var(--gold);
+  border-color: var(--gold);
+}
+
+#crust-panel[hidden] {
+  display: none;
+}
+
+#crust-line {
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: 20px;
+  margin-bottom: 12px;
+}
+
+.crust-row {
+  display: flex;
+  gap: 8px;
+}
+
+.crust-row button {
+  border: 1px solid rgba(239, 230, 210, 0.14);
+  border-radius: 999px;
+  color: var(--mute);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+#crust-panel .fine {
+  font-size: 11px;
+  line-height: 1.4;
+  color: var(--mute);
+}
+
+footer {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 0 0 6px;
+  pointer-events: none;
+}
+
+#speed-stack {
+  display: flex;
+  align-items: flex-end;
+  gap: 14px;
+  padding-left: 28px;
+  pointer-events: auto;
+}
+
+#slider-wrap {
+  width: 100%;
+  padding: 0 18px;
+  pointer-events: auto;
 }
 
 #tour-btn,
+#shift-play,
 #play,
 #tempo-toggle,
 #tempo-menu button,
@@ -360,7 +527,41 @@ footer {
 }
 
 #slider-wrap {
-  flex: 1;
+  width: 100%;
+  position: relative;
+}
+
+#marks {
+  position: relative;
+  height: 34px;
+  margin-top: 6px;
+  pointer-events: none;
+}
+
+#marks button {
+  position: absolute;
+  top: 0;
+  transform: translateX(-50%);
+  pointer-events: auto;
+  background: transparent;
+  border: 0;
+  color: var(--gold);
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+#marks button.low {
+  top: 16px;
+}
+
+#marks button i {
+  font-style: normal;
+  display: block;
+  text-align: center;
+  font-size: 12px;
 }
 
 #slider {
@@ -791,11 +992,15 @@ footer {
   #abc .lbl {
     display: none;
   }
-  footer {
+  #left-col {
     left: 14px;
-    right: 14px;
-    grid-template-columns: 1fr;
-    gap: 12px;
+  }
+  #speed-stack {
+    padding-left: 14px;
+  }
+  footer {
+    left: 0;
+    right: 0;
   }
   #hint {
     bottom: 168px;

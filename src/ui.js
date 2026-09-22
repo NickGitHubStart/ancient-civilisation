@@ -68,8 +68,16 @@ export function createUI(state, camera) {
   const signEl = document.getElementById("sign");
   const tiltEl = document.getElementById("tilt");
   const pointerEl = document.getElementById("pointer-deg");
-  const extrasEl = document.getElementById("extras");
-  const extrasToggle = document.getElementById("extras-toggle");
+  const planetsToggle = document.getElementById("planets-toggle");
+  const crustPanel = document.getElementById("crust-panel");
+  const shiftBtn = document.getElementById("shift-play");
+  const abcEl = document.getElementById("abc");
+  const gateBtns = [...document.querySelectorAll("#crust-conds button")];
+  const CRUST_EXPLAIN = {
+    ice: "Das Eis liegt nicht mittig auf dem Pol. Diese schiefe, schwere Kappe ist der Auslöser.",
+    spin: "Die Erde dreht diese schiefe Masse. Daraus wird Zug auf die ganze Kruste.",
+    gate: "Der Zug reicht. Die Kruste gleitet als eine Haut: die Antarktis rutscht in den Pol, Nordamerika unter dem Eis hervor.",
+  };
   const hintEl = document.getElementById("hint");
   const slider = document.getElementById("slider");
   const playBtn = document.getElementById("play");
@@ -132,11 +140,56 @@ export function createUI(state, camera) {
     setTempoOpen(false);
   }
 
-  extrasToggle.addEventListener("click", (e) => {
+  shiftBtn.addEventListener("click", (e) => {
     e.stopPropagation();
-    const on = extrasToggle.getAttribute("aria-pressed") !== "true";
-    extrasToggle.setAttribute("aria-pressed", on ? "true" : "false");
-    extrasEl.classList.toggle("off", !on);
+    if (state.shiftPlay) {
+      state.shiftPlay = false;
+    } else {
+      state.wantGlobe = true;
+      state.crustOn = true;
+      state.shiftPlay = true;
+      state.shiftT = 0;
+      setYear(-14500);
+    }
+    syncCrust();
+  });
+  gateBtns.forEach((b) => {
+    b.addEventListener("click", (e) => {
+      e.stopPropagation();
+      const k = b.dataset.gate;
+      if (openCond === k) {
+        openCond = null;
+        hintEl.classList.remove("show");
+        return;
+      }
+      openCond = k;
+      hintEl.textContent = CRUST_EXPLAIN[k];
+      hintEl.classList.add("show");
+      hintTimer = 15;
+    });
+  });
+
+  function syncCrust() {
+    const on = !!state.globe;
+    crustPanel.hidden = !on;
+    abcEl.style.display = on ? "none" : "";
+    document.getElementById("crust-caption").hidden = !on;
+    shiftBtn.classList.toggle("on", !!state.shiftPlay);
+    shiftBtn.textContent = state.shiftPlay ? "Stopp" : "Verschiebung";
+    const slip = state.slip || 0;
+    const gates = {
+      ice: state.crustOn && slip > 0.35,
+      spin: !!state.crustOn,
+      gate: state.crustOn && slip > 0.72,
+    };
+    gateBtns.forEach((b) => b.classList.toggle("on", !!gates[b.dataset.gate]));
+  }
+
+  planetsToggle.addEventListener("click", (e) => {
+    e.stopPropagation();
+    state.planets = !state.planets;
+    planetsToggle.setAttribute("aria-pressed", state.planets ? "true" : "false");
+    planetsToggle.classList.toggle("on", state.planets);
   });
 
   function setPlaying(on) {
@@ -241,6 +294,7 @@ export function createUI(state, camera) {
     signEl.textContent = signName;
     tiltEl.textContent = formatTilt(cond.eps);
     pointerEl.textContent = formatPointer(state.year);
+    if (state.globe) syncCrust();
     condBtns.forEach((b) => {
       const k = b.dataset.cond;
       b.classList.toggle("on", cond["on" + k]);
@@ -268,5 +322,5 @@ export function createUI(state, camera) {
   setYear(state.year);
   setTempo(state.tempo);
 
-  return { setYear, setTempo, setPlaying, setHint, tick, followCamera, startTour };
+  return { setYear, setTempo, setPlaying, setHint, tick, followCamera, startTour, syncCrust };
 }

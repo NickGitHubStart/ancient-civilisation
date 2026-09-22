@@ -11,6 +11,7 @@ import {
   raDecToDir,
 } from "./astro.js";
 import { ZODIAC } from "./stars.js";
+import { createPlanets } from "./planets.js";
 
 const GOLD = new THREE.Color("#d7b56a");
 const ICE = new THREE.Color("#9fd4ea");
@@ -18,6 +19,7 @@ const _v = new THREE.Vector3();
 const _v2 = new THREE.Vector3();
 const _q = new THREE.Quaternion();
 const _up = new THREE.Vector3(0, 1, 0);
+const _upQuat = new THREE.Quaternion();
 
 function mulberry32(a) {
   return function () {
@@ -26,6 +28,22 @@ function mulberry32(a) {
     t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
     return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
   };
+}
+
+function loadEarthTexture() {
+  const loader = new THREE.TextureLoader();
+  return new Promise((resolve, reject) => {
+    loader.load(
+      "/earth.jpg",
+      (tex) => {
+        tex.colorSpace = THREE.SRGBColorSpace;
+        tex.anisotropy = 8;
+        resolve(tex);
+      },
+      undefined,
+      () => resolve(paintEarth())
+    );
+  });
 }
 
 function paintEarth() {
@@ -59,6 +77,8 @@ function paintEarth() {
 
   const land = "#3f8f5c";
   const land2 = "#4fa06a";
+  const desert = "#c4a15a";
+  const iceLand = "#d5e4ee";
 
   blob(
     [
@@ -170,6 +190,41 @@ function paintEarth() {
     ],
     land
   );
+  blob(
+    [
+      [-12, 18],
+      [10, 22],
+      [35, 30],
+      [55, 18],
+      [50, 12],
+      [30, 8],
+      [10, 12],
+    ],
+    desert
+  );
+  blob(
+    [
+      [-60, -62],
+      [-20, -70],
+      [40, -68],
+      [80, -72],
+      [140, -66],
+      [170, -72],
+      [-170, -70],
+      [-120, -66],
+    ],
+    iceLand
+  );
+  blob(
+    [
+      [-45, 60],
+      [-20, 72],
+      [-40, 82],
+      [-70, 76],
+      [-60, 62],
+    ],
+    iceLand
+  );
 
   ctx.strokeStyle = "rgba(180, 210, 230, 0.08)";
   ctx.lineWidth = 1;
@@ -234,22 +289,45 @@ function makeSun() {
   const group = new THREE.Group();
 
   const core = new THREE.Mesh(
-    new THREE.SphereGeometry(SUN_R, 48, 48),
-    new THREE.MeshBasicMaterial({ color: "#ffb020" })
+    new THREE.SphereGeometry(SUN_R, 64, 48),
+    new THREE.ShaderMaterial({
+      vertexShader: `
+        varying vec3 vN;
+        varying vec3 vV;
+        void main() {
+          vN = normalize(normalMatrix * normal);
+          vec4 p = modelViewMatrix * vec4(position, 1.0);
+          vV = normalize(-p.xyz);
+          gl_Position = projectionMatrix * p;
+        }
+      `,
+      fragmentShader: `
+        varying vec3 vN;
+        varying vec3 vV;
+        void main() {
+          float f = clamp(dot(normalize(vN), normalize(vV)), 0.0, 1.0);
+          float limb = pow(f, 0.45);
+          vec3 edge = vec3(0.85, 0.22, 0.02);
+          vec3 mid = vec3(1.0, 0.62, 0.12);
+          vec3 core = vec3(1.0, 0.96, 0.82);
+          vec3 col = mix(edge, mid, smoothstep(0.0, 0.45, limb));
+          col = mix(col, core, smoothstep(0.45, 1.0, limb));
+          gl_FragColor = vec4(col, 1.0);
+        }
+      `,
+    })
   );
   group.add(core);
 
   group.add(
     makeSunSprite((ctx, r) => {
-      const g = ctx.createRadialGradient(r, r, 6, r, r, r);
-      g.addColorStop(0, "rgba(255, 252, 230, 1)");
-      g.addColorStop(0.08, "rgba(255, 210, 70, 0.95)");
-      g.addColorStop(0.22, "rgba(255, 150, 30, 0.55)");
-      g.addColorStop(0.5, "rgba(255, 90, 10, 0.16)");
-      g.addColorStop(1, "rgba(0,0,0,0)");
+      const g = ctx.createRadialGradient(r, r, r * 0.15, r, r, r * 0.72);
+      g.addColorStop(0, "rgba(255, 220, 140, 0.45)");
+      g.addColorStop(0.45, "rgba(255, 140, 30, 0.12)");
+      g.addColorStop(1, "rgba(255, 80, 0, 0)");
       ctx.fillStyle = g;
       ctx.fillRect(0, 0, r * 2, r * 2);
-    }, 11)
+    }, 6.5)
   );
 
   group.add(
@@ -259,20 +337,21 @@ function makeSun() {
       for (let i = 0; i < rays; i++) {
         ctx.rotate((Math.PI * 2) / rays);
         const long = i % 2 === 0;
-        const grd = ctx.createLinearGradient(0, 0, 0, long ? r : r * 0.62);
-        grd.addColorStop(0, "rgba(255, 220, 80, 0.55)");
-        grd.addColorStop(0.35, "rgba(255, 140, 20, 0.12)");
-        grd.addColorStop(1, "rgba(255, 80, 0, 0)");
+        const len = long ? r * 0.72 : r * 0.48;
+        const grd = ctx.createLinearGradient(0, 0, 0, len);
+        grd.addColorStop(0, "rgba(255, 220, 120, 0.7)");
+        grd.addColorStop(0.4, "rgba(255, 150, 30, 0.28)");
+        grd.addColorStop(1, "rgba(255, 90, 0, 0)");
         ctx.fillStyle = grd;
         ctx.beginPath();
-        ctx.moveTo(-2.2, 0);
-        ctx.lineTo(2.2, 0);
-        ctx.lineTo(0.4, long ? r * 0.92 : r * 0.55);
-        ctx.lineTo(-0.4, long ? r * 0.92 : r * 0.55);
+        ctx.moveTo(-2.4, r * 0.12);
+        ctx.lineTo(2.4, r * 0.12);
+        ctx.lineTo(0.35, len);
+        ctx.lineTo(-0.35, len);
         ctx.closePath();
         ctx.fill();
       }
-    }, 18)
+    }, 9.5)
   );
 
   return group;
@@ -291,17 +370,79 @@ export async function createScene(renderer) {
   scene.add(new THREE.AmbientLight("#243044", 0.7));
   const fill = new THREE.HemisphereLight("#4a6080", "#0a0c10", 0.55);
   scene.add(fill);
-  scene.add(makeSun());
+  const sunGroup = makeSun();
+  scene.add(sunGroup);
 
   const earthGroup = new THREE.Group();
-  const earthTex = paintEarth();
-  const earthMat = new THREE.MeshStandardMaterial({
-    map: earthTex,
-    roughness: 0.78,
-    metalness: 0.05,
+  const crust = new THREE.Group();
+  const earthTex = await loadEarthTexture();
+  const earthMat = new THREE.ShaderMaterial({
+    uniforms: {
+      map: { value: earthTex },
+      pole: { value: new THREE.Vector3(0, 1, 0) },
+      slip: { value: 0 },
+    },
+    vertexShader: `
+      varying vec2 vUv;
+      varying vec3 vPos;
+      void main() {
+        vUv = uv;
+        vPos = position;
+        gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+      }
+    `,
+    fragmentShader: `
+      uniform sampler2D map;
+      uniform vec3 pole;
+      uniform float slip;
+      varying vec2 vUv;
+      varying vec3 vPos;
+      void main() {
+        vec3 dir = normalize(vPos);
+        vec3 p = normalize(pole);
+        float facing = dot(dir, p);
+        vec3 tex = texture2D(map, vUv).rgb;
+        tex = pow(max(tex, vec3(0.0)), vec3(0.62)) * 1.08;
+        float luma = dot(tex, vec3(0.299, 0.587, 0.114));
+        float mx = max(tex.r, max(tex.g, tex.b));
+        float mn = min(tex.r, min(tex.g, tex.b));
+        float snow = smoothstep(0.52, 0.78, luma) * smoothstep(0.2, 0.05, mx - mn);
+        float ocean = smoothstep(0.0, 0.1, tex.b - max(tex.r, tex.g));
+        float geo = max(smoothstep(0.9, 0.97, facing), smoothstep(0.9, 0.97, -facing));
+        float fringe = max(smoothstep(0.84, 0.91, facing), smoothstep(0.84, 0.91, -facing));
+        vec3 forest = vec3(0.28, 0.45, 0.26);
+        vec3 tundra = vec3(0.46, 0.44, 0.28);
+        vec3 sea = vec3(0.07, 0.2, 0.36);
+        vec3 melted = mix(mix(tundra, forest, 0.6), sea, ocean);
+        if (slip < 0.02) {
+          gl_FragColor = vec4(tex, 1.0);
+          return;
+        }
+        vec3 col = mix(tex, melted, snow * (1.0 - geo) * slip);
+        col = mix(col, tundra, fringe * (1.0 - geo) * (1.0 - ocean) * snow * slip);
+        col = mix(col, vec3(0.94, 0.97, 0.99), geo * slip);
+        gl_FragColor = vec4(col, 1.0);
+      }
+    `,
   });
   const earth = new THREE.Mesh(new THREE.SphereGeometry(EARTH_R, 64, 48), earthMat);
-  earthGroup.add(earth);
+  earth.name = "earth";
+  crust.add(earth);
+  for (const [name, lat, lon] of [
+    ["Nordamerika", 45, -100],
+    ["Südamerika", -18, -60],
+    ["Europa", 50, 12],
+    ["Afrika", 4, 20],
+    ["Asien", 38, 90],
+    ["Australien", -25, 134],
+    ["Antarktis", -82, 40],
+  ]) {
+    const spr = labelSprite(name);
+    spr.position.copy(spherePoint(lat, lon).multiplyScalar(EARTH_R * 1.03));
+    spr.scale.set(0.72, 0.16, 1);
+    crust.add(spr);
+  }
+  earthGroup.add(crust);
 
   const atmo = new THREE.Mesh(
     new THREE.SphereGeometry(EARTH_R * 1.06, 48, 32),
@@ -360,6 +501,11 @@ export async function createScene(renderer) {
   earthGroup.add(axis, axisTip, axisTipS, equator);
   scene.add(earthGroup);
 
+  const mag = makeDipole(EARTH_R * 2.4);
+  earthGroup.add(mag);
+
+  mag.visible = false;
+
   const uprightMat = new THREE.MeshBasicMaterial({
     color: "#c8c4b8",
     transparent: true,
@@ -382,13 +528,15 @@ export async function createScene(renderer) {
     new THREE.MeshBasicMaterial({ color: GOLD, transparent: true, opacity: 0.18 })
   );
   ecliptic.rotation.x = Math.PI / 2;
-  scene.add(ecliptic);
+  const skyRoot = new THREE.Group();
+  scene.add(skyRoot);
+  skyRoot.add(ecliptic);
 
   const field = makeStarField();
-  scene.add(field);
+  skyRoot.add(field);
 
   const zodiac = await makeZodiac();
-  scene.add(zodiac.group);
+  skyRoot.add(zodiac.group);
 
   const pointer = makePointer();
   scene.add(pointer.group);
@@ -397,7 +545,10 @@ export async function createScene(renderer) {
     new THREE.BufferGeometry(),
     new THREE.LineBasicMaterial({ color: ICE, transparent: true, opacity: 0.22 })
   );
-  scene.add(poleTrail);
+  skyRoot.add(poleTrail);
+
+  const planets = await createPlanets();
+  scene.add(planets.group);
 
   function updateOrbit(e) {
     const n = 180;
@@ -441,20 +592,53 @@ export async function createScene(renderer) {
     upright.position.set(pos.x, pos.y, pos.z);
     poleDir(year, eps, _v);
     _q.setFromUnitVectors(_up, _v2.copy(_v).normalize());
-    earthGroup.quaternion.copy(_q);
-    earth.rotation.y = dayPhase;
+    earthGroup.quaternion.copy(state.globe ? _upQuat : _q);
+    earth.rotation.y = state.globe ? 0 : dayPhase;
+
+    const globe = !!state.globe;
+    const crustOn = globe && !!state.crustOn;
+    const slip = crustOn ? Math.min(1, Math.max(0, state.slip ?? 0)) : 0;
+    crust.quaternion.copy(slipQuat(slip));
+    _v.set(0, 1, 0).applyQuaternion(_slipQ.clone().invert());
+    if (earthMat.uniforms) {
+      earthMat.uniforms.pole.value.copy(_v);
+      earthMat.uniforms.slip.value = globe ? slip : 0;
+    }
+    iceN.visible = !globe && ice > 0.12;
+    iceS.visible = !globe && ice > 0.12;
+    axis.visible = !globe;
+    axisTip.visible = !globe;
+    axisTipS.visible = !globe;
+    equator.visible = true;
+    equator.material.opacity = globe ? 0.9 : (onB ? 0.9 : 0.45);
+
+    const showPlanets = !!state.planets && !globe;
+    planets.setVisible(showPlanets);
+    planets.update(year);
+    const skyScale = showPlanets ? (AU * 32) / SKY_R : 1;
+    skyRoot.scale.setScalar(skyScale);
+    scene.fog.density = showPlanets ? 0.00028 : 0.0025;
+    mag.visible = globe && !!state.fieldOn;
+
+    const orreryOn = !globe;
+    sunGroup.visible = orreryOn;
+    orbitLine.visible = orreryOn;
+    ecliptic.visible = orreryOn;
+    field.visible = orreryOn;
+    zodiac.group.visible = orreryOn;
+    pointer.group.visible = orreryOn;
+    poleTrail.visible = orreryOn;
+    upright.visible = orreryOn;
 
     const iceScale = 0.55 + ice * 0.85;
     iceN.scale.setScalar(iceScale);
     iceS.scale.setScalar(iceScale);
-    iceN.visible = ice > 0.12;
-    iceS.visible = ice > 0.12;
     atmo.material.uniforms.uIce.value = ice;
 
     axisMat.color.copy(onB ? ICE : GOLD);
     orbitMat.color.copy(onA ? ICE : GOLD);
     orbitMat.opacity = onA ? 0.7 : 0.32;
-    equator.material.opacity = onB ? 0.9 : 0.45;
+
 
     sunLight.color.set(ice > 0.72 ? "#c5d8f0" : "#ffc56a");
     sunLight.intensity = 160 + ice * 40;
@@ -467,7 +651,80 @@ export async function createScene(renderer) {
   updateOrbit(0.017);
   updatePoleTrail(23.44 * DEG);
 
-  return { scene, camera, earthGroup, update, zodiac };
+  return { scene, camera, earthGroup, earth, update, zodiac };
+}
+
+const _hub = spherePoint(60, -85);
+const _slipAxis = new THREE.Vector3().crossVectors(_hub, new THREE.Vector3(0, 1, 0)).normalize();
+const _slipAng = Math.acos(Math.min(1, _hub.y));
+const _slipQ = new THREE.Quaternion();
+
+function slipQuat(slip) {
+  _slipQ.setFromAxisAngle(_slipAxis, slip * _slipAng);
+  return _slipQ;
+}
+
+function spherePoint(lat, lon) {
+  const phi = (90 - lat) * DEG;
+  const theta = (lon + 180) * DEG;
+  return new THREE.Vector3(
+    -Math.sin(phi) * Math.cos(theta),
+    Math.cos(phi),
+    Math.sin(phi) * Math.sin(theta)
+  );
+}
+
+function addMarker(parent, label, lat, lon) {
+  const p = spherePoint(lat, lon).multiplyScalar(EARTH_R * 1.04);
+  const dot = new THREE.Mesh(
+    new THREE.SphereGeometry(0.045, 10, 8),
+    new THREE.MeshBasicMaterial({ color: "#d7b56a" })
+  );
+  dot.position.copy(p);
+  parent.add(dot);
+  const spr = labelSprite(label);
+  spr.position.copy(p).multiplyScalar(1.08);
+  parent.add(spr);
+}
+
+function labelSprite(text) {
+  const c = document.createElement("canvas");
+  c.width = 512;
+  c.height = 96;
+  const ctx = c.getContext("2d");
+  ctx.fillStyle = "#efe6d2";
+  ctx.font = "500 42px Outfit, sans-serif";
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+  ctx.fillText(text, 256, 48);
+  const mat = new THREE.SpriteMaterial({
+    map: new THREE.CanvasTexture(c),
+    transparent: true,
+    depthWrite: false,
+  });
+  const s = new THREE.Sprite(mat);
+  s.scale.set(1.6, 0.3, 1);
+  return s;
+}
+
+function makeDipole(r) {
+  const g = new THREE.Group();
+  const mat = new THREE.LineBasicMaterial({
+    color: "#7ec8e3",
+    transparent: true,
+    opacity: 0.55,
+  });
+  for (let i = 0; i < 6; i++) {
+    const a0 = (i / 6) * Math.PI * 2;
+    const pts = [];
+    for (let k = 0; k <= 32; k++) {
+      const t = (k / 32) * Math.PI;
+      const rad = Math.sin(t) * r;
+      pts.push(new THREE.Vector3(Math.cos(a0) * rad, Math.cos(t) * r * 0.92, Math.sin(a0) * rad));
+    }
+    g.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts), mat));
+  }
+  return g;
 }
 
 function makeStarField() {
