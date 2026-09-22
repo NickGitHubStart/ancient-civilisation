@@ -15,9 +15,12 @@
   <body>
     <canvas id="c"></canvas>
 
-    <nav id="exhibits" aria-label="Szenen">
+    <nav id="exhibits" aria-label="Scenes">
       <a id="ex-year" href="#/year">Great Year</a>
-      <a id="ex-giza" href="#/giza">Giza</a>
+      <div id="lang" role="group" aria-label="Language">
+        <button type="button" data-lang="en" class="on">EN</button>
+        <button type="button" data-lang="de">DE</button>
+      </div>
     </nav>
 
     <div id="hud">
@@ -43,7 +46,7 @@
           </button>
           <button type="button" data-cond="B" title="Achsenneigung">
             <span>B</span>
-            <em><span class="lbl">Achse</span> <small id="tilt">23,4°</small></em>
+            <em>Achse</em>
           </button>
           <button type="button" data-cond="C" title="Nord-Sommer weit von der Sonne">
             <span>C</span>

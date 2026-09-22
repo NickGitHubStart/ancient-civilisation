@@ -1,4 +1,5 @@
-import { YEAR_MAX, YEAR_MIN, formatPointer, formatTilt, formatYear } from "./astro.js";
+import { YEAR_MAX, YEAR_MIN, formatPointer, formatYear } from "./astro.js";
+import { pack } from "./i18n.js";
 
 const TOUR = [
   {
@@ -59,14 +60,13 @@ const TOUR = [
 
 const EXPLAIN = {
   A: "Die Bahn ist am länglichsten. Am fernsten Punkt liegt die Erde Millionen Meilen weiter von der Sonne.",
-  B: "Die Achse lehnt 22,1° bis 24,5° von der Senkrechten. Je weiter, desto höher die Sommersonne über den Polen — Sommer wärmer, Winter kälter. Steiler: beides gemäßigter.",
+  B: "Die goldene Achse lehnt von der blassen Senkrechten weg. Die Zahl an der Spitze ist dieser Winkel, 22,1° bis 24,5°. Pfeil nach oben: der Winkel wächst. Pfeil nach unten: die Achse wird wieder steiler.",
   C: "Durch die Präzession fällt der Winter einer Halbkugel auf den fernsten Punkt der Bahn.",
 };
 
 export function createUI(state, camera) {
   const yearEl = document.getElementById("year");
   const signEl = document.getElementById("sign");
-  const tiltEl = document.getElementById("tilt");
   const pointerEl = document.getElementById("pointer-deg");
   const planetsToggle = document.getElementById("planets-toggle");
   const crustPanel = document.getElementById("crust-panel");
@@ -92,11 +92,57 @@ export function createUI(state, camera) {
   const tempoMenu = document.getElementById("tempo-menu");
   const tempoBtns = [...tempoMenu.querySelectorAll("button")];
   const TEMPO = {
-    month: { yearsPerSec: 1 / 12, label: "1 Monat" },
-    1: { yearsPerSec: 1, label: "1 Jahr" },
-    72: { yearsPerSec: 72, label: "72 Jahre" },
-    2160: { yearsPerSec: 2160, label: "2160 Jahre" },
+    month: { yearsPerSec: 1 / 12 },
+    1: { yearsPerSec: 1 },
+    72: { yearsPerSec: 72 },
+    2160: { yearsPerSec: 2160 },
   };
+  state.lang = localStorage.getItem("ancient-lang") || "en";
+
+  function L() {
+    return pack(state.lang);
+  }
+
+  function applyLang() {
+    const t = L();
+    document.querySelectorAll("#lang button").forEach((b) => {
+      b.classList.toggle("on", b.dataset.lang === state.lang);
+    });
+    document.getElementById("planets-toggle").textContent = t.planets;
+    document.getElementById("tour-btn").textContent = t.precession;
+    document.querySelector(".kicker").textContent = t.kicker;
+    document.getElementById("tempo-hint").textContent = t.tempoHint;
+    const ticks = document.querySelectorAll("#ticks span");
+    if (ticks[0]) ticks[0].textContent = t.tickStart;
+    if (ticks[1]) ticks[1].textContent = t.tickEnd;
+    document.getElementById("crust-caption").textContent = t.caption;
+    document.getElementById("tour-skip").textContent = t.close;
+    document.getElementById("tour-next").textContent = t.next;
+    condBtns.forEach((b) => {
+      const em = b.querySelector("em");
+      if (em) em.textContent = t.abc[b.dataset.cond];
+    });
+    gateBtns.forEach((b) => {
+      const em = b.querySelector("em");
+      if (em) em.textContent = t.crust[b.dataset.gate];
+    });
+    tempoBtns.forEach((b) => {
+      b.textContent = t.tempo[b.dataset.tempo];
+    });
+    shiftBtn.textContent = state.shiftPlay ? t.stop : t.shift;
+    setTempo(state.tempoId || "72");
+    setYear(state.year);
+    if (tourIndex >= 0) applyTour(TOUR[tourIndex]);
+    localStorage.setItem("ancient-lang", state.lang);
+  }
+
+  document.querySelectorAll("#lang button").forEach((b) => {
+    b.addEventListener("click", (e) => {
+      e.stopPropagation();
+      state.lang = b.dataset.lang;
+      applyLang();
+    });
+  });
 
   slider.min = YEAR_MIN;
   slider.max = YEAR_MAX;
@@ -116,7 +162,7 @@ export function createUI(state, camera) {
   function setYear(y, fromSlider = false) {
     state.year = Math.min(YEAR_MAX, Math.max(YEAR_MIN, y));
     if (!fromSlider) slider.value = state.year;
-    yearEl.textContent = formatYear(state.year);
+    yearEl.textContent = formatYear(state.year, state.lang);
   }
 
   function setTempoOpen(open) {
@@ -131,7 +177,7 @@ export function createUI(state, camera) {
     if (!t) return;
     state.tempo = t.yearsPerSec;
     state.tempoId = id;
-    tempoToggle.textContent = t.label;
+    tempoToggle.textContent = L().tempo[id] || t.label;
     tempoBtns.forEach((b) => {
       const on = b.dataset.tempo === id;
       b.classList.toggle("on", on);
@@ -163,7 +209,7 @@ export function createUI(state, camera) {
         return;
       }
       openCond = k;
-      hintEl.textContent = CRUST_EXPLAIN[k];
+      hintEl.textContent = L().crustExplain[k];
       hintEl.classList.add("show");
       hintTimer = 15;
     });
@@ -175,7 +221,7 @@ export function createUI(state, camera) {
     abcEl.style.display = on ? "none" : "";
     document.getElementById("crust-caption").hidden = !on;
     shiftBtn.classList.toggle("on", !!state.shiftPlay);
-    shiftBtn.textContent = state.shiftPlay ? "Stopp" : "Verschiebung";
+    shiftBtn.textContent = state.shiftPlay ? L().stop : L().shift;
     const slip = state.slip || 0;
     const gates = {
       ice: state.crustOn && slip > 0.35,
@@ -228,7 +274,7 @@ export function createUI(state, camera) {
         return;
       }
       openCond = k;
-      hintEl.textContent = EXPLAIN[k];
+      hintEl.textContent = L().explain[k];
       hintEl.classList.add("show");
       hintTimer = 15;
     });
@@ -280,8 +326,9 @@ export function createUI(state, camera) {
 
   function applyTour(step) {
     tourStep.textContent = `${tourIndex + 1} / ${TOUR.length}`;
-    tourTitle.textContent = step.title;
-    tourText.textContent = step.text;
+    const copy = L().tour[tourIndex] || [step.title, step.text];
+    tourTitle.textContent = copy[0];
+    tourText.textContent = copy[1];
     if (step.cam) Object.assign(camTarget, step.cam);
     if (step.tempo) setTempo(step.tempo);
     if (step.year != null) setYear(step.year);
@@ -291,9 +338,9 @@ export function createUI(state, camera) {
   }
 
   function tick(dt, cond, signName) {
-    signEl.textContent = signName;
-    tiltEl.textContent = formatTilt(cond.eps);
-    pointerEl.textContent = formatPointer(state.year);
+    const signs = L().signs;
+    signEl.textContent = state.lang === "de" || !signs[signName] ? signName : signs[signName];
+    pointerEl.textContent = formatPointer(state.year, 2026, state.lang);
     if (state.globe) syncCrust();
     condBtns.forEach((b) => {
       const k = b.dataset.cond;
@@ -320,7 +367,8 @@ export function createUI(state, camera) {
   }
 
   setYear(state.year);
-  setTempo(state.tempo);
+  setTempo(state.tempoId || "72");
+  applyLang();
 
   return { setYear, setTempo, setPlaying, setHint, tick, followCamera, startTour, syncCrust };
 }

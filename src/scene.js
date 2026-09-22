@@ -7,11 +7,14 @@ import {
   SUN_R,
   earthPosition,
   eclipticDir,
+  formatTilt,
   poleDir,
   raDecToDir,
+  tiltRising,
 } from "./astro.js";
 import { ZODIAC } from "./stars.js";
 import { createPlanets } from "./planets.js";
+import { pack } from "./i18n.js";
 
 const GOLD = new THREE.Color("#d7b56a");
 const ICE = new THREE.Color("#9fd4ea");
@@ -438,9 +441,11 @@ export async function createScene(renderer) {
     ["Antarktis", -82, 40],
   ]) {
     const spr = labelSprite(name);
+    spr.userData.place = name;
     spr.position.copy(spherePoint(lat, lon).multiplyScalar(EARTH_R * 1.03));
     spr.scale.set(0.72, 0.16, 1);
     crust.add(spr);
+    (crust.userData.labels ||= []).push(spr);
   }
   earthGroup.add(crust);
 
@@ -498,7 +503,9 @@ export async function createScene(renderer) {
     new THREE.MeshBasicMaterial({ color: "#d7b56a", transparent: true, opacity: 0.55 })
   );
   equator.rotation.x = Math.PI / 2;
-  earthGroup.add(axis, axisTip, axisTipS, equator);
+  const axisReadout = axisLabel();
+  axisReadout.position.set(0.55, EARTH_R * 1.85, 0);
+  earthGroup.add(axis, axisTip, axisTipS, equator, axisReadout);
   scene.add(earthGroup);
 
   const mag = makeDipole(EARTH_R * 2.4);
@@ -596,8 +603,7 @@ export async function createScene(renderer) {
     earth.rotation.y = state.globe ? 0 : dayPhase;
 
     const globe = !!state.globe;
-    const crustOn = globe && !!state.crustOn;
-    const slip = crustOn ? Math.min(1, Math.max(0, state.slip ?? 0)) : 0;
+    const slip = Math.min(1, Math.max(0, state.slip ?? 0));
     crust.quaternion.copy(slipQuat(slip));
     _v.set(0, 1, 0).applyQuaternion(_slipQ.clone().invert());
     if (earthMat.uniforms) {
@@ -606,11 +612,22 @@ export async function createScene(renderer) {
     }
     iceN.visible = !globe && ice > 0.12;
     iceS.visible = !globe && ice > 0.12;
+    axisReadout.visible = !globe;
+    paintAxisLabel(axisReadout, `${formatTilt(eps)}  ${tiltRising(year) ? "↑" : "↓"}`);
     axis.visible = !globe;
     axisTip.visible = !globe;
     axisTipS.visible = !globe;
     equator.visible = true;
     equator.material.opacity = globe ? 0.9 : (onB ? 0.9 : 0.45);
+
+    const lang = state.lang || "en";
+    if (crust.userData.lang !== lang && crust.userData.labels) {
+      crust.userData.lang = lang;
+      const names = pack(lang).places;
+      for (const spr of crust.userData.labels) {
+        paintAxisLabel(spr, names[spr.userData.place] || spr.userData.place);
+      }
+    }
 
     const showPlanets = !!state.planets && !globe;
     planets.setVisible(showPlanets);
@@ -685,6 +702,32 @@ function addMarker(parent, label, lat, lon) {
   const spr = labelSprite(label);
   spr.position.copy(p).multiplyScalar(1.08);
   parent.add(spr);
+}
+
+function axisLabel() {
+  const spr = labelSprite("23,4°  ↓");
+  spr.scale.set(1.15, 0.28, 1);
+  spr.userData.last = "";
+  return spr;
+}
+
+function paintAxisLabel(sprite, text) {
+  if (sprite.userData.last === text) return;
+  sprite.userData.last = text;
+  const c = document.createElement("canvas");
+  c.width = 512;
+  c.height = 128;
+  const ctx = c.getContext("2d");
+  ctx.clearRect(0, 0, 512, 128);
+  ctx.fillStyle = "#efe6d2";
+  ctx.font = "600 64px Outfit, sans-serif";
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+  ctx.fillText(text, 256, 64);
+  const tex = new THREE.CanvasTexture(c);
+  tex.colorSpace = THREE.SRGBColorSpace;
+  sprite.material.map = tex;
+  sprite.material.needsUpdate = true;
 }
 
 function labelSprite(text) {

@@ -16,13 +16,22 @@ export function clamp(x, a = 0, b = 1) {
   return Math.min(b, Math.max(a, x));
 }
 
-export function formatYear(year) {
+export function formatYear(year, lang = "en") {
   const y = Math.round(year);
   const abs = Math.abs(y);
-  const n = abs >= 10000 ? abs.toLocaleString("de-DE") : String(abs);
-  if (y >= 1) return `${n} n. Chr.`;
-  if (y === 0) return "1 v. Chr.";
-  return `${n} v. Chr.`;
+  const n =
+    lang === "de"
+      ? abs >= 10000
+        ? abs.toLocaleString("de-DE")
+        : String(abs)
+      : abs >= 10000
+        ? abs.toLocaleString("en-US")
+        : String(abs);
+  const ce = lang === "de" ? "n. Chr." : "AD";
+  const bce = lang === "de" ? "v. Chr." : "BC";
+  if (y >= 1) return `${n} ${ce}`;
+  if (y === 0) return `1 ${bce}`;
+  return `${n} ${bce}`;
 }
 
 export function formatTilt(eps) {
@@ -30,14 +39,14 @@ export function formatTilt(eps) {
   return `${d.toLocaleString("de-DE", { minimumFractionDigits: 1, maximumFractionDigits: 1 })}°`;
 }
 
-export function formatPointer(year, today = 2026) {
+export function formatPointer(year, today = 2026, lang = "en") {
   const deg = (year - today) / YEAR_PER_DEGREE;
   const n = Math.abs(deg).toLocaleString("de-DE", {
     minimumFractionDigits: 1,
     maximumFractionDigits: 1,
   });
   if (Math.abs(deg) < 0.05) return "0°";
-  if (deg > 0) return `${n}° westlich`;
+  if (deg > 0) return lang === "de" ? `${n}° westlich` : `${n}° west`;
   return `${n}°`;
 }
 
@@ -57,6 +66,11 @@ export function eccentricity(year) {
 
 export function obliquity(year) {
   return (23.3 + 1.2 * Math.cos((2 * Math.PI * (year + 7450)) / 41000)) * DEG;
+}
+
+export function tiltRising(year) {
+  const phase = (2 * Math.PI * (year + 7450)) / 41000;
+  return -Math.sin(phase) > 0;
 }
 
 export function perihelionLongitude(year) {

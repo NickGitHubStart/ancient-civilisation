@@ -57,8 +57,11 @@ export async function startYear(canvas) {
   const camGoal = new THREE.Vector3();
 
   function slipFromYear(year) {
-    const t = (year - -16000) / (2026 - -16000);
-    return Math.min(1, Math.max(0, 1 - t));
+    const start = -14600;
+    const end = -14100;
+    if (year <= start) return 1;
+    if (year >= end) return 0;
+    return 1 - (year - start) / (end - start);
   }
 
   function enterGlobe() {
@@ -163,7 +166,7 @@ export async function startYear(canvas) {
       state.snapSpring = false;
     }
 
-    state.slip = state.globe && state.crustOn ? slipFromYear(state.year) : 0;
+    state.slip = slipFromYear(state.year);
 
     const cond = conditions(state.year);
     update({

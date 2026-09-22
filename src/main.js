@@ -8,7 +8,6 @@ function exhibit() {
 function syncNav() {
   const id = exhibit();
   document.getElementById("ex-year")?.classList.toggle("on", id === "year");
-  document.getElementById("ex-giza")?.classList.toggle("on", id === "giza");
   const yearHud = document.getElementById("hud");
   const gizaHud = document.getElementById("giza-hud");
   if (yearHud) yearHud.hidden = id !== "year";

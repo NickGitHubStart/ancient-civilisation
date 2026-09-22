@@ -659,10 +659,32 @@ footer {
   left: 22px;
   z-index: 20;
   display: flex;
-  gap: 6px;
+  align-items: center;
+  gap: 8px;
   pointer-events: auto;
   user-select: none;
   -webkit-user-select: none;
+}
+
+#lang {
+  display: flex;
+  gap: 2px;
+}
+
+#lang button {
+  border: 1px solid rgba(239, 230, 210, 0.18);
+  border-radius: 999px;
+  color: var(--mute);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  padding: 6px 8px;
+  cursor: pointer;
+}
+
+#lang button.on {
+  color: #1a140c;
+  background: var(--gold);
+  border-color: var(--gold);
 }
 
 #exhibits a {
